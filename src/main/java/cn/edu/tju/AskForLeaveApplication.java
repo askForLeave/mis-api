@@ -20,7 +20,7 @@ public class AskForLeaveApplication {
 	@Bean
 	public CommandLineRunner demo(UserRepo userRepo, StaffRepo staffRepo, LeaveAppRepo leaveAppRepo) {
 		return (args) -> {
-			// save a couple of users
+
 //			userRepo.save(new User("Jacky", "123"));
 //			userRepo.save(new User("Alice", "456"));
 //
@@ -28,22 +28,9 @@ public class AskForLeaveApplication {
 
 //			leaveAppRepo.save(new LeaveApplication("Jacky" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
 //			leaveAppRepo.save(new LeaveApplication("Jacky" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
-//			leaveAppRepo.save(new LeaveApplication("Jacky" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
-			leaveAppRepo.delete(4);
-			try {
-				leaveAppRepo.delete(2);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (leaveAppRepo.exists(4)) {
-				leaveAppRepo.delete(4);
-			} else {
-				System.out.printf("id = 4 does not exists!");
-			}
+			leaveAppRepo.save(new LeaveApplication("Jacky" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
 
-//			LeaveApplication la = leaveAppRepo.findOne(3);
-//			la.setApplicantName("new name instead of Jacky");
-//			leaveAppRepo.save(la);
+
 		};
 	}
 }
