@@ -53,12 +53,27 @@ public class LoginService {
         }
     }
 
-    public int isLogin(){
+    public boolean isLogin(){
         if (httpSession.getAttribute("user")!=null){
-            return 1;
+            return true;
         }else {
-            return 0;
+            return false;
         }
     }
 
+    public ErrorReporter logout() {
+        if (httpSession.getAttribute("user") == null){
+            return  new ErrorReporter(-1, "not login");
+        }
+        httpSession.setAttribute("user", null);
+        return new ErrorReporter(0, "logout success");
+    }
+
+    public HttpSession getHttpSession() {
+        return httpSession;
+    }
+
+    public void setHttpSession(HttpSession httpSession) {
+        this.httpSession = httpSession;
+    }
 }
