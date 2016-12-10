@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+
 @Entity
 public class User {
 

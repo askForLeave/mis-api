@@ -21,14 +21,14 @@ public class AskForLeaveApplication {
 	public CommandLineRunner demo(UserRepo userRepo, StaffRepo staffRepo, LeaveAppRepo leaveAppRepo) {
 		return (args) -> {
 
-//			userRepo.save(new User("Jacky", "123"));
-//			userRepo.save(new User("Alice", "456"));
+//			userRepo.save(new User("Jacky", "123456"));
+//			userRepo.save(new User("Alice", "123456"));
 //
 //			staffRepo.save(new Staff("Jacky", "Jacky", 15, 5, "dev", "Alice"));
 
-//			leaveAppRepo.save(new LeaveApplication("Jacky" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
-//			leaveAppRepo.save(new LeaveApplication("Jacky" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
-			leaveAppRepo.save(new LeaveApplication("Jacky" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
+			leaveAppRepo.save(new LeaveApplication("Jack" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
+			leaveAppRepo.save(new LeaveApplication("Jack" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
+			leaveAppRepo.save(new LeaveApplication("Jack" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
 
 
 		};

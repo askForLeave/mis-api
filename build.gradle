@@ -31,6 +31,7 @@ dependencies {
 	compile('org.springframework.session:spring-session')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("com.h2database:h2")
+	compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.0.RELEASE'
 
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')

@@ -15,6 +15,11 @@ public class ErrorReporter {
         this.data = data;
     }
 
+    public ErrorReporter(int errno, String errmsg) {
+        this.errno = errno;
+        this.errmsg = errmsg;
+    }
+
     public int getErrno() {
         return errno;
     }
