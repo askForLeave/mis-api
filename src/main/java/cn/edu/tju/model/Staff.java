@@ -19,17 +19,21 @@ public class Staff {
     private String department;
     private String managerId;
 
+    private String managerName;
+
+
     private String leave_detail;
 
     protected Staff() {}
 
-    public Staff(String id, String name, int annualTotal, int annualLeft, String department, String managerId) {
+    public Staff(String id, String name, int annualTotal, int annualLeft, String department, String managerId, String managerName) {
         this.id = id;
         this.name = name;
         this.annualTotal = annualTotal;
         this.annualLeft = annualLeft;
         this.department = department;
         this.managerId = managerId;
+        this.managerName = managerName;
         this.leave_detail = "0100100010041040";//new char[400].toString();
     }
 
@@ -88,4 +92,13 @@ public class Staff {
     public void setLeave_detail(String leave_detail) {
         this.leave_detail = leave_detail;
     }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
 }
