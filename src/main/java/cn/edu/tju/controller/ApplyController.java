@@ -59,7 +59,7 @@ public class ApplyController {
 
         User curUser = ((User)httpSession.getAttribute("user"));
         if ( !curUser.getId().equals(username)) {
-            return new ErrorReporter(-1, "should only modify leave application for yourself");
+            return new ErrorReporter(-1, "should only modify leave applications for yourself");
         }
 
         Staff curStaff = staffRepo.findOne( curUser.getId() );
