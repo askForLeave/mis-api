@@ -4,6 +4,7 @@ import cn.edu.tju.dao.LeaveAppRepo;
 import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dao.UserRepo;
 import cn.edu.tju.dto.ErrorReporter;
+import cn.edu.tju.dto.ResponseData;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
@@ -82,4 +83,17 @@ public class ApplyController {
         return new ErrorReporter(0, "success");
     }
 
+    @RequestMapping("/leave/apply/info")
+    public ErrorReporter info(String username) {
+
+        if ( !loginService.isLogin()) {
+            return new ErrorReporter(-1, "not login");
+        }
+
+        User curUser = ((User)httpSession.getAttribute("user"));
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
+        ResponseData rd = new ResponseData(curStaff.getId(), curStaff.getName(), curStaff.getManagerId(), curStaff.getManagerName(), curStaff.getDepartment(), curStaff.getAnnualTotal(), curStaff.getAnnualLeft());
+
+        return new ErrorReporter(0, "success", rd);
+    }
 }

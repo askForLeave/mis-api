@@ -1,9 +1,8 @@
 package cn.edu.tju.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Column;
 
 @Entity
 public class Staff {
@@ -18,15 +17,22 @@ public class Staff {
 
     private String department;
     private String managerId;
-
     private String managerName;
 
-
-    private String leave_detail;
+    /**
+     * @Column(columnDefinition = "TEXT") -> text in mysql
+     * @Column(columnDefinition = "LONG VARCHAR") -> mediumtext in mysql
+     *
+     * leaveDetail is a JsonString of an int[400], array[0] will be the year,
+     * and array[i] will be mark of the i-th day of the year.
+     *
+     * */
+    @Column(length = 1000)      // varchar(1000) in my sql
+    private String leaveDetail;
 
     protected Staff() {}
 
-    public Staff(String id, String name, int annualTotal, int annualLeft, String department, String managerId, String managerName) {
+    public Staff(String id, String name, int annualTotal, int annualLeft, String department, String managerId, String managerName, String leaveDetail) {
         this.id = id;
         this.name = name;
         this.annualTotal = annualTotal;
@@ -34,7 +40,7 @@ public class Staff {
         this.department = department;
         this.managerId = managerId;
         this.managerName = managerName;
-        this.leave_detail = "0100100010041040";//new char[400].toString();
+        this.leaveDetail = leaveDetail;
     }
 
     public String getId() {
@@ -85,12 +91,12 @@ public class Staff {
         this.managerId = managerId;
     }
 
-    public String getLeave_detail() {
-        return leave_detail;
+    public String getLeaveDetail() {
+        return leaveDetail;
     }
 
-    public void setLeave_detail(String leave_detail) {
-        this.leave_detail = leave_detail;
+    public void setLeaveDetail(String leaveDetail) {
+        this.leaveDetail = leaveDetail;
     }
 
     public String getManagerName() {
