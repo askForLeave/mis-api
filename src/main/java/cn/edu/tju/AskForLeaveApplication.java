@@ -25,18 +25,18 @@ public class AskForLeaveApplication {
 
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String password = passwordEncoder.encode("123456");
-			userRepo.save(new User("Jacky", password));
+			userRepo.save(new User("Jack", password));
 			userRepo.save(new User("Alice", password));
 
 			int[] leaveDetail = new int[400];
 			Gson gson = new Gson();
 			String leaveDetailJS = gson.toJson(leaveDetail);
-			staffRepo.save(new Staff("Jacky", "Jacky", 15, 5, "dev", "Alice", "Alice", "" + leaveDetailJS));
+			staffRepo.save(new Staff("Jack", "Jack", 15, 5, "dev", "Alice", "Alice", "" + leaveDetailJS));
 
-			leaveAppRepo.save(new LeaveApplication("Jack" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
-			leaveAppRepo.save(new LeaveApplication("Jack" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
-			leaveAppRepo.save(new LeaveApplication("Jack" , "Jacky" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "Alice" , "Alice" , 123456789 , "approved"));
-
+			for(int i = 0; i < 20; i++) {
+				leaveAppRepo.save(new LeaveApplication("Jack" , "Jack" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 1 , "dev","Alice" , "Alice" , 123456789 , "approved"));
+				leaveAppRepo.save(new LeaveApplication("Jack" , "Jack" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "dev","Alice" , "Alice" , 123456789 , "approved"));
+			}
 
 		};
 	}

@@ -1,7 +1,6 @@
 package cn.edu.tju.dto;
 
 
-import cn.edu.tju.dao.LeaveAppRepo;
 import cn.edu.tju.model.LeaveApplication;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class ResponseData {
     private int annualLeft;
 
 
-    private List<LeaveApplication> LeaveAppList;
+    private List<ResponseLeaveApplication> list;
 
     protected ResponseData() {}
 
@@ -43,12 +42,12 @@ public class ResponseData {
     }
 
     // for list leave_applications response
-    public ResponseData(int page, int pageSize, int total, String username, List<LeaveApplication> leaveAppList) {
+    public ResponseData(int page, int pageSize, int total, String username, List<ResponseLeaveApplication> list) {
         this.page = page;
         this.pageSize = pageSize;
         this.total = total;
         this.username = username;
-        LeaveAppList = leaveAppList;
+        this.list = list;
     }
 
     public int getPage() {
@@ -75,12 +74,12 @@ public class ResponseData {
         this.total = total;
     }
 
-    public List<LeaveApplication> getLeaveAppList() {
-        return LeaveAppList;
+    public List<ResponseLeaveApplication> getList() {
+        return list;
     }
 
-    public void setLeaveAppList(List<LeaveApplication> leaveAppList) {
-        LeaveAppList = leaveAppList;
+    public void setList(List<ResponseLeaveApplication> list) {
+        this.list = list;
     }
 
     public String getUsername() {

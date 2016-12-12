@@ -5,16 +5,21 @@ import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dao.UserRepo;
 import cn.edu.tju.dto.ErrorReporter;
 import cn.edu.tju.dto.ResponseData;
+import cn.edu.tju.dto.ResponseLeaveApplication;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
 import cn.edu.tju.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ApplyController {
@@ -46,7 +51,7 @@ public class ApplyController {
 
         int curTime = (int) (System.currentTimeMillis() / 1000L);
         Staff curStaff = staffRepo.findOne( curUser.getId() );
-        LeaveApplication la = leaveAppRepo.save(new LeaveApplication(username , curStaff.getName() , startTime , endTime , curTime , reason, type, submitStatus, curStaff.getManagerId(), curStaff.getManagerName(), 0 , ""));
+        LeaveApplication la = leaveAppRepo.save(new LeaveApplication(username , curStaff.getName() , startTime , endTime , curTime , reason, type, submitStatus, ""+ curStaff.getDepartment(), curStaff.getManagerId(), curStaff.getManagerName(), 0 , ""));
 
         return new ErrorReporter(0, "success");
     }
@@ -96,4 +101,31 @@ public class ApplyController {
 
         return new ErrorReporter(0, "success", rd);
     }
+
+    @RequestMapping("/leave/apply/draftList")
+    public ErrorReporter draftList(String username, int page, int pageSize) {
+
+        if ( !loginService.isLogin()) {
+            return new ErrorReporter(-1, "not login");
+        }
+
+        User curUser = ((User)httpSession.getAttribute("user"));
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
+
+        int total = leaveAppRepo.countByApplicantIdAndStatus(curStaff.getId(), 1);
+
+        Pageable pageable = new PageRequest(page - 1, pageSize);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusOrderByIdDesc(curStaff.getId(), 1, pageable);
+
+        // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
+        List<ResponseLeaveApplication> list = new ArrayList<>();
+        for (LeaveApplication e : las){
+            list.add(new ResponseLeaveApplication(e));
+        }
+
+        ResponseData responseData = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+
+        return new ErrorReporter(0, "success", responseData);
+    }
+
 }

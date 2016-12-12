@@ -21,6 +21,7 @@ public class LeaveApplication {
     private int type;
     private int status;
 
+    private String applicantDepartment;
     private String managerId;
     private String managerName;
     private long reviewTime;
@@ -28,7 +29,7 @@ public class LeaveApplication {
 
     protected LeaveApplication () {}
 
-    public LeaveApplication(String applicantId, String applicantName, long startTime, long endTime, long applyTime, String applyReason, int type, int status, String managerId, String managerName, long reviewTime, String reviewReason) {
+    public LeaveApplication(String applicantId, String applicantName, long startTime, long endTime, long applyTime, String applyReason, int type, int status, String applicantDepartment, String managerId, String managerName, long reviewTime, String reviewReason) {
         this.applicantId = applicantId;
         this.applicantName = applicantName;
         this.startTime = startTime;
@@ -37,6 +38,7 @@ public class LeaveApplication {
         this.applyReason = applyReason;
         this.type = type;
         this.status = status;
+        this.applicantDepartment = applicantDepartment;
         this.managerId = managerId;
         this.managerName = managerName;
         this.reviewTime = reviewTime;
@@ -109,6 +111,18 @@ public class LeaveApplication {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getApplicantDepartment() {
+        return applicantDepartment;
+    }
+
+    public void setApplicantDepartment(String applicantDepartment) {
+        this.applicantDepartment = applicantDepartment;
     }
 
     public String getManagerId() {
