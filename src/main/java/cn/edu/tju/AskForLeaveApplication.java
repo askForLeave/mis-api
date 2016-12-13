@@ -33,9 +33,11 @@ public class AskForLeaveApplication {
 			String leaveDetailJS = gson.toJson(leaveDetail);
 			staffRepo.save(new Staff("Jack", "Jack", 15, 5, "dev", "Alice", "Alice", "" + leaveDetailJS));
 
-			for(int i = 0; i < 20; i++) {
+			for(int i = 0; i < 10; i++) {
 				leaveAppRepo.save(new LeaveApplication("Jack" , "Jack" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 1 , "dev","Alice" , "Alice" , 123456789 , "approved"));
 				leaveAppRepo.save(new LeaveApplication("Jack" , "Jack" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 2 , "dev","Alice" , "Alice" , 123456789 , "approved"));
+				leaveAppRepo.save(new LeaveApplication("Jack" , "Jack" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 3 , "dev","Alice" , "Alice" , 123456789 , "approved"));
+				leaveAppRepo.save(new LeaveApplication("Jack" , "Jack" , 123456789 , 234567890 , 1234567890 , "be ill" , 1 , 4 , "dev","Alice" , "Alice" , 123456789 , "approved"));
 			}
 
 		};

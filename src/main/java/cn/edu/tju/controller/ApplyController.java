@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -128,4 +129,36 @@ public class ApplyController {
         return new ErrorReporter(0, "success", responseData);
     }
 
+    @RequestMapping("/leave/apply/publishList")
+    public ErrorReporter publishList(String username, int page, int pageSize) {
+
+        if ( !loginService.isLogin()) {
+            return new ErrorReporter(-1, "not login");
+        }
+
+        User curUser = ((User)httpSession.getAttribute("user"));
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
+
+        int[] values = {2,3,4};
+        int total = 0;
+        for (int i : values) {
+            total += leaveAppRepo.countByApplicantIdAndStatus(curStaff.getId(), i);
+        }
+
+        Pageable pageable = new PageRequest(page - 1, pageSize);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInOrderByIdDesc(curStaff.getId(), Arrays.asList(2,3,4), pageable);
+//        for (int i : values) {
+//            las.addAll( leaveAppRepo.findByApplicantIdAndStatusOrderByIdDesc(curStaff.getId(), i, pageable) );
+//        }
+
+        // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
+        List<ResponseLeaveApplication> list = new ArrayList<>();
+        for (LeaveApplication e : las){
+            list.add(new ResponseLeaveApplication(e));
+        }
+
+        ResponseData responseData = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+
+        return new ErrorReporter(0, "success", responseData);
+    }
 }

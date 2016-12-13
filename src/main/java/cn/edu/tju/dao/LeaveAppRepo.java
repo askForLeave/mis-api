@@ -9,7 +9,11 @@ import java.util.List;
 
 
 public interface LeaveAppRepo extends CrudRepository<LeaveApplication, Integer>, PagingAndSortingRepository<LeaveApplication, Integer> {
+
     public List<LeaveApplication> findByApplicantIdAndStatusOrderByIdDesc(String applicantId, int status, Pageable pageable);
 
+    public List<LeaveApplication> findByApplicantIdAndStatusInOrderByIdDesc(String applicantId, List<Integer> inventoryStatusList, Pageable pageable);
+
     public int countByApplicantIdAndStatus(String applicantId, int status);
+
 }
