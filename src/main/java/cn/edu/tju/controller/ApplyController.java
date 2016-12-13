@@ -69,18 +69,20 @@ public class ApplyController {
             return new ErrorReporter(-1, "should only modify leave applications for yourself");
         }
 
-        Staff curStaff = staffRepo.findOne( curUser.getId() );
-        int curTime = (int) (System.currentTimeMillis() / 1000L);
-
         LeaveApplication la = leaveAppRepo.findOne(id);
+        if(la.getStatus() != 1) {
+            return new ErrorReporter(-1, "can not modify");
+        }
         la.setStartTime(startTime);
         la.setEndTime(endTime);
         la.setType(type);
         la.setApplyReason(reason);
         la.setStatus(submitStatus);
 
+        int curTime = (int) (System.currentTimeMillis() / 1000L);
         la.setApplyTime(curTime);
 
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
         la.setApplicantName(curStaff.getName());
         la.setManagerId(curStaff.getManagerId());
         la.setManagerName(curStaff.getManagerName());

@@ -18,4 +18,12 @@ public interface LeaveAppRepo extends CrudRepository<LeaveApplication, Integer>,
 
     public int countByApplicantIdAndStatusIn(String applicantId, List<Integer> statusList);
 
+    public List<LeaveApplication> findByManagerIdAndStatusOrderByIdDesc(String managerId, int status, Pageable pageable);
+
+    public List<LeaveApplication> findByManagerIdAndStatusInOrderByIdDesc(String managerId, List<Integer> stl, Pageable pageable);
+
+    public int countByManagerIdAndStatus(String managerId, int status);
+
+    public int countByManagerIdAndStatusIn(String mansgerId, List<Integer> status);
+
 }
