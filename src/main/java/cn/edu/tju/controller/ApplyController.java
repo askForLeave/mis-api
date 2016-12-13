@@ -139,17 +139,10 @@ public class ApplyController {
         User curUser = ((User)httpSession.getAttribute("user"));
         Staff curStaff = staffRepo.findOne( curUser.getId() );
 
-        int[] values = {2,3,4};
-        int total = 0;
-        for (int i : values) {
-            total += leaveAppRepo.countByApplicantIdAndStatus(curStaff.getId(), i);
-        }
+        int total = leaveAppRepo.countByApplicantIdAndStatusIn(curStaff.getId(), Arrays.asList(2,3,4));
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
         List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInOrderByIdDesc(curStaff.getId(), Arrays.asList(2,3,4), pageable);
-//        for (int i : values) {
-//            las.addAll( leaveAppRepo.findByApplicantIdAndStatusOrderByIdDesc(curStaff.getId(), i, pageable) );
-//        }
 
         // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
         List<ResponseLeaveApplication> list = new ArrayList<>();
