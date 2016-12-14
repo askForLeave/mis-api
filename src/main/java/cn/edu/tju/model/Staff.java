@@ -27,7 +27,7 @@ public class Staff {
      * and array[i] will be mark of the i-th day of the year.
      *
      * */
-    @Column(length = 1000)      // varchar(1000) in my sql
+    @Column(length = 100000)      // varchar(100000) in my sql, array[4000]
     private String leaveDetail;
 
     protected Staff() {}

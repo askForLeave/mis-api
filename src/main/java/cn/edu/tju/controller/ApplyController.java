@@ -10,6 +10,9 @@ import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
 import cn.edu.tju.service.LoginService;
+import com.google.gson.Gson;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -45,13 +48,44 @@ public class ApplyController {
             return new ErrorReporter(-1, "not login");
         }
 
+        if (startTime > endTime) {
+            return new ErrorReporter(-1, "invalid start time and end time");
+        }
+
+        if (submitStatus != 1 && submitStatus != 2) {
+            return new ErrorReporter(-1, "invalid submit status");
+        }
+
         User curUser = ((User)httpSession.getAttribute("user"));
         if ( !curUser.getId().equals(username)) {
             return new ErrorReporter(-1, "should only apply leave for yourself");
         }
 
-        int curTime = (int) (System.currentTimeMillis() / 1000L);
         Staff curStaff = staffRepo.findOne( curUser.getId() );
+
+        if (submitStatus == 2) {
+            Gson gson = new Gson();
+            int[] leaveDetail =  gson.fromJson(curStaff.getLeaveDetail(), int[].class);
+            LocalDate initialDay = new LocalDate(2016,1,1);
+            LocalDate startDay = new LocalDate(startTime*1000L);
+            LocalDate endDay = new LocalDate(endTime*1000L);
+            int startDayIndexInLeaveDetail = Days.daysBetween(initialDay, startDay).getDays();
+            int endDayIndexInLeaveDetail = Days.daysBetween(initialDay, endDay).getDays();
+
+            for (int i = startDayIndexInLeaveDetail; i <= endDayIndexInLeaveDetail; i++) {
+                if ( leaveDetail[i] != 0 && leaveDetail[i] != 9) {
+                    return new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
+                }
+            }
+
+            for (int i = startDayIndexInLeaveDetail; i <= endDayIndexInLeaveDetail; i++) {
+                leaveDetail[i] = 100 + type;
+            }
+            curStaff.setLeaveDetail(gson.toJson(leaveDetail));
+            staffRepo.save(curStaff);
+        }
+
+        int curTime = (int) (System.currentTimeMillis() / 1000L);
         LeaveApplication la = leaveAppRepo.save(new LeaveApplication(username , curStaff.getName() , startTime , endTime , curTime , reason, type, submitStatus, ""+ curStaff.getDepartment(), curStaff.getManagerId(), curStaff.getManagerName(), 0 , ""));
 
         return new ErrorReporter(0, "success");
@@ -64,15 +98,57 @@ public class ApplyController {
             return new ErrorReporter(-1, "not login");
         }
 
+        if (startTime > endTime) {
+            return new ErrorReporter(-1, "invalid start time and end time");
+        }
+
+        if (submitStatus != 1 && submitStatus != 2) {
+            return new ErrorReporter(-1, "invalid submit status");
+        }
+
         User curUser = ((User)httpSession.getAttribute("user"));
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
         if ( !curUser.getId().equals(username)) {
             return new ErrorReporter(-1, "should only modify leave applications for yourself");
         }
 
-        LeaveApplication la = leaveAppRepo.findOne(id);
-        if(la.getStatus() != 1) {
+        LeaveApplication la;
+        if (leaveAppRepo.exists(id)){
+            la = leaveAppRepo.findOne(id);
+        } else {
+            return new ErrorReporter(-1, "application not exist");
+        }
+
+        if (la.getStatus() != 1 || !la.getApplicantName().equals(curStaff.getId()) ) {
             return new ErrorReporter(-1, "can not modify");
         }
+
+        if (submitStatus == 2) {    // then change the leave details of the staff
+            Gson gson = new Gson();
+            int[] leaveDetail =  gson.fromJson(curStaff.getLeaveDetail(), int[].class);
+
+            LocalDate initialDay = new LocalDate(2016,1,1);
+            LocalDate startDay = new LocalDate(startTime*1000L);
+            LocalDate endDay = new LocalDate(endTime*1000L);
+            int startDayIndex = Days.daysBetween(initialDay, startDay).getDays();
+            int endDayIndex = Days.daysBetween(initialDay, endDay).getDays();
+
+            for (int i = startDayIndex; i <= endDayIndex; i++) {
+                if ( leaveDetail[i] != 0 && leaveDetail[i] != 9) {
+                    return new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
+                }
+            }
+
+
+            for (int i = startDayIndex; i <= endDayIndex; i++) {
+                if (leaveDetail[i] != 9) {
+                    leaveDetail[i] = 100 + type;
+                }
+            }
+            curStaff.setLeaveDetail(gson.toJson(leaveDetail));
+            staffRepo.save(curStaff);
+        }
+
         la.setStartTime(startTime);
         la.setEndTime(endTime);
         la.setType(type);
@@ -82,7 +158,6 @@ public class ApplyController {
         int curTime = (int) (System.currentTimeMillis() / 1000L);
         la.setApplyTime(curTime);
 
-        Staff curStaff = staffRepo.findOne( curUser.getId() );
         la.setApplicantName(curStaff.getName());
         la.setManagerId(curStaff.getManagerId());
         la.setManagerName(curStaff.getManagerName());
@@ -103,6 +178,32 @@ public class ApplyController {
         ResponseData rd = new ResponseData(curStaff.getId(), curStaff.getName(), curStaff.getManagerId(), curStaff.getManagerName(), curStaff.getDepartment(), curStaff.getAnnualTotal(), curStaff.getAnnualLeft());
 
         return new ErrorReporter(0, "success", rd);
+    }
+
+    @RequestMapping("/leave/apply/delete")
+    public ErrorReporter info(int id) {
+
+        if ( !loginService.isLogin()) {
+            return new ErrorReporter(-1, "not login");
+        }
+
+        User curUser = ((User)httpSession.getAttribute("user"));
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
+
+        LeaveApplication la;
+        if (leaveAppRepo.exists(id)){
+            la = leaveAppRepo.findOne(id);
+        } else {
+            return new ErrorReporter(-1, "application not exist");
+        }
+
+        if (la.getStatus() != 1 || !la.getApplicantName().equals(curStaff.getId()) ) {
+            return new ErrorReporter(-1, "can not delete");
+        }
+
+        leaveAppRepo.delete(la);
+
+        return new ErrorReporter(0, "success");
     }
 
     @RequestMapping("/leave/apply/draftList")

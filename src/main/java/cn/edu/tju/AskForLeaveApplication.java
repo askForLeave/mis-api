@@ -5,6 +5,7 @@ import cn.edu.tju.dao.UserRepo;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
+import org.joda.time.DateTime;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,8 +30,19 @@ public class AskForLeaveApplication {
 			userRepo.save(new User("Alice", password));
 
 			int[] leaveDetail = new int[400];
+			leaveDetail[0] = 0;	// leaveDetail[0] is the day 2016-01-01
+
+			for (int i = 2; i < leaveDetail.length; i += 7) {
+				leaveDetail[i] = 9;
+				leaveDetail[i-1] = 9;
+			}
+			if ((leaveDetail.length - 1) % 7 == 2)	leaveDetail[leaveDetail.length - 1] = 9;
+
+			leaveDetail[5] = 1;
+
 			Gson gson = new Gson();
 			String leaveDetailJS = gson.toJson(leaveDetail);
+
 			staffRepo.save(new Staff("Jack", "Jack", 15, 5, "dev", "Alice", "Alice", "" + leaveDetailJS));
 			staffRepo.save(new Staff("Alice", "Alice", 15, 5, "dev", "Bob", "Bob", "" + leaveDetailJS));
 
