@@ -16,10 +16,10 @@ import java.util.Iterator;
 public class LoginService {
 
     @Autowired
-    private UserRepo userRepo;
+    protected UserRepo userRepo;
 
     @Autowired
-    private HttpSession httpSession;
+    protected HttpSession httpSession;
 
     public ErrorReporter login(String username, String password){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

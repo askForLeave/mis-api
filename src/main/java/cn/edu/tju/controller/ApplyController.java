@@ -29,16 +29,16 @@ import java.util.List;
 public class ApplyController {
 
     @Autowired
-    private HttpSession httpSession;
+    protected HttpSession httpSession;
 
     @Autowired
-    private LoginService loginService;
+    protected LoginService loginService;
 
     @Autowired
-    private LeaveAppRepo leaveAppRepo;
+    protected LeaveAppRepo leaveAppRepo;
 
     @Autowired
-    private StaffRepo staffRepo;
+    protected StaffRepo staffRepo;
 
 
     @RequestMapping("/leave/apply/add")

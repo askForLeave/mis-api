@@ -27,16 +27,16 @@ import java.util.List;
 public class ReviewController {
 
     @Autowired
-    LoginService loginService;
+    protected LoginService loginService;
 
     @Autowired
-    HttpSession httpSession;
+    protected HttpSession httpSession;
 
     @Autowired
-    LeaveAppRepo leaveAppRepo;
+    protected LeaveAppRepo leaveAppRepo;
 
     @Autowired
-    StaffRepo staffRepo;
+    protected StaffRepo staffRepo;
 
     @RequestMapping("/leave/review/todoList")
     public ErrorReporter todoList (String username, int page, int pageSize) {
