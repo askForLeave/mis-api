@@ -73,7 +73,7 @@ public class ApplyController {
             int endDayIndex = Days.daysBetween(initialDay, endDay).getDays();
 
             for (int i = startDayIndex; i <= endDayIndex; i++) {
-                if ( leaveDetail[i] != 0 && leaveDetail[i] != 9) {
+                if ( leaveDetail[i] != 0 && leaveDetail[i] != 9 && leaveDetail[i] != 8) {
                     return new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
                 }
             }
