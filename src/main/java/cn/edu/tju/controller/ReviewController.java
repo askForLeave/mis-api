@@ -9,6 +9,9 @@ import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
 import cn.edu.tju.service.LoginService;
+import com.google.gson.Gson;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -109,8 +112,46 @@ public class ReviewController {
             return new ErrorReporter(-1, "wrong status");
         }
 
+        Staff applicantStaff = staffRepo.findOne(la.getApplicantId());
+        Gson gson = new Gson();
+        int[] leaveDetail = gson.fromJson(applicantStaff.getLeaveDetail(), int[].class);
+        LocalDate initialDay = new LocalDate(2016,1,1);
+        LocalDate startDay = new LocalDate(la.getStartTime()*1000L);
+        LocalDate endDay = new LocalDate(la.getEndTime()*1000L);
+        int startDayIndex = Days.daysBetween(initialDay, startDay).getDays();
+        int endDayIndex = Days.daysBetween(initialDay, endDay).getDays();
+
+        if (status == 3) {  // not approved
+            for (int i = startDayIndex; i <= endDayIndex; i++) {
+                if(leaveDetail[i] >= 100) {
+                    leaveDetail[i] -= 100;
+                }
+            }
+            if (la.getType() == 1) {
+                int annualLeft = applicantStaff.getAnnualLeft();
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if(leaveDetail[i] == 0) {
+                        annualLeft ++;
+                    }
+                }
+                applicantStaff.setAnnualLeft(annualLeft);
+            }
+        } else {    // status == 4, approved
+            if (Arrays.asList(1,2,3,4,5,6,7).contains(la.getType())) {
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 100) {
+                        leaveDetail[i] = la.getType();
+                    }
+                }
+            }
+        }
+        applicantStaff.setLeaveDetail(gson.toJson(leaveDetail));
+        staffRepo.save(applicantStaff);
+
         la.setStatus(status);
         la.setReviewReason(reviewReason);
+        int curTime = (int) (System.currentTimeMillis() / 1000L);
+        la.setReviewTime(curTime);
         leaveAppRepo.save(la);
 
         return new ErrorReporter(0, "success");

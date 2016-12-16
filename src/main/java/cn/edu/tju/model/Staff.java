@@ -11,6 +11,7 @@ public class Staff {
     private String id;
 
     private String name;
+    private int sex;    // 1 for man, 2 for woman
 
     private int annualTotal;
     private int annualLeft;
@@ -32,9 +33,10 @@ public class Staff {
 
     protected Staff() {}
 
-    public Staff(String id, String name, int annualTotal, int annualLeft, String department, String managerId, String managerName, String leaveDetail) {
+    public Staff(String id, String name, int sex, int annualTotal, int annualLeft, String department, String managerId, String managerName, String leaveDetail) {
         this.id = id;
         this.name = name;
+        this.sex = sex;
         this.annualTotal = annualTotal;
         this.annualLeft = annualLeft;
         this.department = department;
@@ -57,6 +59,14 @@ public class Staff {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
     public int getAnnualTotal() {

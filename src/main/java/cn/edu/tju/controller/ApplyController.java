@@ -69,18 +69,39 @@ public class ApplyController {
             LocalDate initialDay = new LocalDate(2016,1,1);
             LocalDate startDay = new LocalDate(startTime*1000L);
             LocalDate endDay = new LocalDate(endTime*1000L);
-            int startDayIndexInLeaveDetail = Days.daysBetween(initialDay, startDay).getDays();
-            int endDayIndexInLeaveDetail = Days.daysBetween(initialDay, endDay).getDays();
+            int startDayIndex = Days.daysBetween(initialDay, startDay).getDays();
+            int endDayIndex = Days.daysBetween(initialDay, endDay).getDays();
 
-            for (int i = startDayIndexInLeaveDetail; i <= endDayIndexInLeaveDetail; i++) {
+            for (int i = startDayIndex; i <= endDayIndex; i++) {
                 if ( leaveDetail[i] != 0 && leaveDetail[i] != 9) {
                     return new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
                 }
             }
 
-            for (int i = startDayIndexInLeaveDetail; i <= endDayIndexInLeaveDetail; i++) {
-                leaveDetail[i] = 100 + type;
+            if (type == 1) {
+                int annualLeft = curStaff.getAnnualLeft();
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 0) {
+                        annualLeft --;
+                    }
+                }
+                if (annualLeft < 0){
+                    return new ErrorReporter(-1, "your left annual leave is not enough");
+                }
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 0) {
+                        leaveDetail[i] += 100;
+                    }
+                }
+                curStaff.setAnnualLeft(annualLeft);
+            } else {
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 0) {
+                        leaveDetail[i] += 100;
+                    }
+                }
             }
+
             curStaff.setLeaveDetail(gson.toJson(leaveDetail));
             staffRepo.save(curStaff);
         }
@@ -134,17 +155,35 @@ public class ApplyController {
             int endDayIndex = Days.daysBetween(initialDay, endDay).getDays();
 
             for (int i = startDayIndex; i <= endDayIndex; i++) {
-                if ( leaveDetail[i] != 0 && leaveDetail[i] != 9) {
+                if ( leaveDetail[i] != 0 && leaveDetail[i] != 8 && leaveDetail[i] != 9) {
                     return new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
                 }
             }
 
-
-            for (int i = startDayIndex; i <= endDayIndex; i++) {
-                if (leaveDetail[i] != 9) {
-                    leaveDetail[i] = 100 + type;
+            if (type == 1) {
+                int annualLeft = curStaff.getAnnualLeft();
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 0) {
+                        annualLeft --;
+                    }
+                }
+                if (annualLeft < 0){
+                    return new ErrorReporter(-1, "your left annual leave is not enough");
+                }
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 0) {
+                        leaveDetail[i] += 100;
+                    }
+                }
+                curStaff.setAnnualLeft(annualLeft);
+            } else {
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 0) {
+                        leaveDetail[i] += 100;
+                    }
                 }
             }
+
             curStaff.setLeaveDetail(gson.toJson(leaveDetail));
             staffRepo.save(curStaff);
         }
