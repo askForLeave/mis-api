@@ -478,7 +478,7 @@ public class ApplyControllerTest {
         int curTime = (int) (System.currentTimeMillis() / 1000L);
         LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 1, 1, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
         LeaveApplicationlist.add(leaveApplication);
-        when(applyController.leaveAppRepo.findByApplicantIdAndStatusOrderByIdDesc(staff.getId(), 1, pageable)).thenReturn(LeaveApplicationlist);
+        when(applyController.leaveAppRepo.findByApplicantIdAndStatusOrderByapplyTimeDesc(staff.getId(), 1, pageable)).thenReturn(LeaveApplicationlist);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e : LeaveApplicationlist){
             list.add(new ResponseLeaveApplication(e));
@@ -521,7 +521,7 @@ public class ApplyControllerTest {
         int curTime = (int) (System.currentTimeMillis() / 1000L);
         LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 1, 1, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
         LeaveApplicationlist.add(leaveApplication);
-        when(applyController.leaveAppRepo.findByApplicantIdAndStatusInOrderByIdDesc(staff.getId(), Arrays.asList(2,3,4), pageable)).thenReturn(LeaveApplicationlist);
+        when(applyController.leaveAppRepo.findByApplicantIdAndStatusInOrderByapplyTimeDesc(staff.getId(), Arrays.asList(2,3,4), pageable)).thenReturn(LeaveApplicationlist);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e : LeaveApplicationlist){
             list.add(new ResponseLeaveApplication(e));
