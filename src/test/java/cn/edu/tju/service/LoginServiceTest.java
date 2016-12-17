@@ -2,6 +2,7 @@ package cn.edu.tju.service;
 
 import cn.edu.tju.dao.UserRepo;
 import cn.edu.tju.dto.ErrorReporter;
+import cn.edu.tju.dto.ResponseNameData;
 import cn.edu.tju.model.User;
 import com.google.gson.Gson;
 import org.junit.After;
@@ -19,6 +20,7 @@ public class LoginServiceTest {
     private LoginService loginService;
     private Gson gson;
     private ErrorReporter success = new ErrorReporter(0, "success");
+    private ErrorReporter success2;
     private ErrorReporter passworderror = new ErrorReporter(1, "password error");
     private ErrorReporter noaccount = new ErrorReporter(2, "no account");
     private ErrorReporter duplicationerror = new ErrorReporter(3, "duplication error");
@@ -66,8 +68,10 @@ public class LoginServiceTest {
         User user = new User("test",passwordEncoder.encode("test"));
         when(loginService.userRepo.findOne("test")).thenReturn(user);
         loginService.httpSession = mock(HttpSession.class);
+        success2 = new ErrorReporter(0, "success");
+        success2.setData(new ResponseNameData("test"));
         ErrorReporter actualReporter = loginService.login("test","test");
-        String expected = gson.toJson(success);
+        String expected = gson.toJson(success2);
         String actual = gson.toJson(actualReporter);
         assertEquals(expected,actual);
     }

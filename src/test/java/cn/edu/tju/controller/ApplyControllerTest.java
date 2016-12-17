@@ -2,9 +2,7 @@ package cn.edu.tju.controller;
 
 import cn.edu.tju.dao.LeaveAppRepo;
 import cn.edu.tju.dao.StaffRepo;
-import cn.edu.tju.dto.ErrorReporter;
-import cn.edu.tju.dto.ResponseData;
-import cn.edu.tju.dto.ResponseLeaveApplication;
+import cn.edu.tju.dto.*;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
@@ -367,7 +365,7 @@ public class ApplyControllerTest {
         Staff staff = new Staff("test","test",1,20,20,"test","testM","testM",gson.toJson(leaveditail));
         when(applyController.staffRepo.findOne(testuser.getId())).thenReturn(staff);
         success2 = new ErrorReporter(0, "success");
-        ResponseData responseData = new ResponseData(staff.getId(), staff.getName(), staff.getManagerId(), staff.getManagerName(), staff.getDepartment(), staff.getAnnualTotal(), staff.getAnnualLeft());
+        ResponseInfoData responseData = new ResponseInfoData(staff.getId(), staff.getName(), staff.getManagerId(), staff.getManagerName(), staff.getDepartment(), staff.getAnnualTotal(), staff.getAnnualLeft());
         success2.setData(responseData);
         ErrorReporter actualReporter = applyController.info("test");
         String expected = gson.toJson(success2);
@@ -485,7 +483,7 @@ public class ApplyControllerTest {
         for (LeaveApplication e : LeaveApplicationlist){
             list.add(new ResponseLeaveApplication(e));
         }
-        ResponseData responseData = new ResponseData(1, 1, 100, staff.getId(), list);
+        ResponseListData responseData = new ResponseListData(1, 1, 100, staff.getId(), list);
         success2 = new ErrorReporter(0, "success");
         success2.setData(responseData);
         ErrorReporter actualReporter = applyController.draftList("test",1,1);
@@ -528,7 +526,7 @@ public class ApplyControllerTest {
         for (LeaveApplication e : LeaveApplicationlist){
             list.add(new ResponseLeaveApplication(e));
         }
-        ResponseData responseData = new ResponseData(1, 1, 100, staff.getId(), list);
+        ResponseListData responseData = new ResponseListData(1, 1, 100, staff.getId(), list);
         success2 = new ErrorReporter(0, "success");
         success2.setData(responseData);
         ErrorReporter actualReporter = applyController.publishList("test",1,1);

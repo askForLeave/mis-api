@@ -5,6 +5,7 @@ import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dto.ErrorReporter;
 import cn.edu.tju.dto.ResponseData;
 import cn.edu.tju.dto.ResponseLeaveApplication;
+import cn.edu.tju.dto.ResponseListData;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
@@ -83,7 +84,7 @@ public class ReviewControllerTest {
         for (LeaveApplication e:las) {
             list.add(new ResponseLeaveApplication(e));
         }
-        ResponseData data = new ResponseData(1, 1, 100, staff.getId(), list);
+        ResponseListData data = new ResponseListData(1, 1, 100, staff.getId(), list);
         success2 = new ErrorReporter(0, "success");
         success2.setData(data);
         ErrorReporter actualReporter = reviewController.todoList("test",1,1);
@@ -126,7 +127,7 @@ public class ReviewControllerTest {
         for (LeaveApplication e:las) {
             list.add(new ResponseLeaveApplication(e));
         }
-        ResponseData data = new ResponseData(1, 1, 100, staff.getId(), list);
+        ResponseListData data = new ResponseListData(1, 1, 100, staff.getId(), list);
         success2 = new ErrorReporter(0, "success");
         success2.setData(data);
         ErrorReporter actualReporter = reviewController.doneList("test",1,1);
