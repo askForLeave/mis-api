@@ -79,7 +79,7 @@ public class ReviewControllerTest {
         int curTime = (int) (System.currentTimeMillis() / 1000L);
         LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 1, 1, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
         las.add(leaveApplication);
-        when(reviewController.leaveAppRepo.findByManagerIdAndStatusOrderByapplyTimeDesc(staff.getId(), 2, pageable)).thenReturn(las);
+        when(reviewController.leaveAppRepo.findByManagerIdAndStatusOrderByApplyTimeDesc(staff.getId(), 2, pageable)).thenReturn(las);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e:las) {
             list.add(new ResponseLeaveApplication(e));
@@ -122,7 +122,7 @@ public class ReviewControllerTest {
         int curTime = (int) (System.currentTimeMillis() / 1000L);
         LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 1, 1, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
         las.add(leaveApplication);
-        when(reviewController.leaveAppRepo.findByManagerIdAndStatusInOrderByapplyTimeDesc(staff.getId(), Arrays.asList(3,4), pageable)).thenReturn(las);
+        when(reviewController.leaveAppRepo.findByManagerIdAndStatusInOrderByApplyTimeDesc(staff.getId(), Arrays.asList(3,4), pageable)).thenReturn(las);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e:las) {
             list.add(new ResponseLeaveApplication(e));

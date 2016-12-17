@@ -256,7 +256,7 @@ public class ApplyController {
         int total = leaveAppRepo.countByApplicantIdAndStatus(curStaff.getId(), 1);
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusOrderByapplyTimeDesc(curStaff.getId(), 1, pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusOrderByApplyTimeDesc(curStaff.getId(), 1, pageable);
 
         // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
         List<ResponseLeaveApplication> list = new ArrayList<>();
@@ -282,7 +282,7 @@ public class ApplyController {
         int total = leaveAppRepo.countByApplicantIdAndStatusIn(curStaff.getId(), Arrays.asList(2,3,4));
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInOrderByapplyTimeDesc(curStaff.getId(), Arrays.asList(2,3,4), pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInOrderByApplyTimeDesc(curStaff.getId(), Arrays.asList(2,3,4), pageable);
 
         // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
         List<ResponseLeaveApplication> list = new ArrayList<>();
