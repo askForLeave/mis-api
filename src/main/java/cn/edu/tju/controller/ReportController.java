@@ -3,6 +3,7 @@ package cn.edu.tju.controller;
 import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dto.ErrorReporter;
 import cn.edu.tju.dto.LeaveReporter;
+import cn.edu.tju.dto.ResponseData;
 import cn.edu.tju.model.Staff;
 import com.google.gson.Gson;
 import org.joda.time.Days;
@@ -17,8 +18,8 @@ public class ReportController {
     @Autowired
     StaffRepo staffRepo;
 
-    @RequestMapping("/leave/report")
-    public LeaveReporter report(String staffId, int startTime, int endTime) {
+    @RequestMapping("/leave/report/toFinancial")
+    public LeaveReporter toFinancialSys(String staffId, int startTime, int endTime) {
 
         Staff curStaff = staffRepo.findOne(staffId);
         Gson gson = new Gson();
@@ -67,8 +68,9 @@ public class ReportController {
             }
         }
 
-        return new LeaveReporter(total, normalWorkAndRest, annualLeave, marriageLeave, maternityPaternityLeave, sickLeave,
+        ResponseData data =  new LeaveReporter(total, normalWorkAndRest, annualLeave, marriageLeave, maternityPaternityLeave, sickLeave,
                 bereavementLeave, officialLeave, matterLeave, overtimeInHoliday, overtimeInWeekends, other);
+        return new ErrorReporter(0,"success", data)
     }
 
 }
