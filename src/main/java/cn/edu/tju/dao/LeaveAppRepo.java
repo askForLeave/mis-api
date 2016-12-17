@@ -8,7 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 
-public interface LeaveAppRepo extends CrudRepository<LeaveApplication, Integer>, PagingAndSortingRepository<LeaveApplication, Integer> {
+public interface LeaveAppRepo extends CrudRepository<LeaveApplication, Long>, PagingAndSortingRepository<LeaveApplication, Long> {
 
     public List<LeaveApplication> findByApplicantIdAndStatusOrderByapplyTimeDesc(String applicantId, int status, Pageable pageable);
 
