@@ -8,19 +8,19 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 
-public interface LeaveAppRepo extends CrudRepository<LeaveApplication, Integer>, PagingAndSortingRepository<LeaveApplication, Integer> {
+public interface LeaveAppRepo extends CrudRepository<LeaveApplication, Long>, PagingAndSortingRepository<LeaveApplication, Long> {
 
-    public List<LeaveApplication> findByApplicantIdAndStatusOrderByApplyTimeDesc(String applicantId, int status, Pageable pageable);
+    public List<LeaveApplication> findByApplicantIdAndStatusOrderByapplyTimeDesc(String applicantId, int status, Pageable pageable);
 
-    public List<LeaveApplication> findByApplicantIdAndStatusInOrderByApplyTimeDesc(String applicantId, List<Integer> statusList, Pageable pageable);
+    public List<LeaveApplication> findByApplicantIdAndStatusInOrderByapplyTimeDesc(String applicantId, List<Integer> statusList, Pageable pageable);
 
     public int countByApplicantIdAndStatus(String applicantId, int status);
 
     public int countByApplicantIdAndStatusIn(String applicantId, List<Integer> statusList);
 
-    public List<LeaveApplication> findByManagerIdAndStatusOrderByApplyTimeDesc(String managerId, int status, Pageable pageable);
+    public List<LeaveApplication> findByManagerIdAndStatusOrderByapplyTimeDesc(String managerId, int status, Pageable pageable);
 
-    public List<LeaveApplication> findByManagerIdAndStatusInOrderByApplyTimeDesc(String managerId, List<Integer> stl, Pageable pageable);
+    public List<LeaveApplication> findByManagerIdAndStatusInOrderByapplyTimeDesc(String managerId, List<Integer> stl, Pageable pageable);
 
     public int countByManagerIdAndStatus(String managerId, int status);
 

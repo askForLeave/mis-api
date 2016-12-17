@@ -52,7 +52,7 @@ public class ReviewController {
         int total = leaveAppRepo.countByManagerIdAndStatus(curStaff.getId(), 2);
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusOrderByApplyTimeDesc(curStaff.getId(), 2, pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusOrderByapplyTimeDesc(curStaff.getId(), 2, pageable);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e:las) {
             list.add(new ResponseLeaveApplication(e));
@@ -74,7 +74,7 @@ public class ReviewController {
         int total = leaveAppRepo.countByManagerIdAndStatusIn(curStaff.getId(), Arrays.asList(3,4));
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusInOrderByApplyTimeDesc(curStaff.getId(), Arrays.asList(3,4), pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusInOrderByapplyTimeDesc(curStaff.getId(), Arrays.asList(3,4), pageable);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e: las) {
             list.add(new ResponseLeaveApplication(e));
