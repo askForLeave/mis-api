@@ -28,7 +28,7 @@ public class LoginService {
             User user = userRepo.findOne(username);
             if (passwordEncoder.matches(password, user.getPassword())) {
                 httpSession.setAttribute("user", user);
-                ResponseNameData responseNameData = new ResponseNameData("test");
+                ResponseNameData responseNameData = new ResponseNameData(username);
                 return new ErrorReporter(0, "success",responseNameData);
             }else {
                 return new ErrorReporter(1, "password error");
