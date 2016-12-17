@@ -19,7 +19,7 @@ public class ReportController {
     StaffRepo staffRepo;
 
     @RequestMapping("/leave/report/toFinancial")
-    public LeaveReporter toFinancialSys(String staffId, int startTime, int endTime) {
+    public ErrorReporter toFinancialSys(String staffId, int startTime, int endTime) {
 
         Staff curStaff = staffRepo.findOne(staffId);
         Gson gson = new Gson();
@@ -70,7 +70,7 @@ public class ReportController {
 
         ResponseData data =  new LeaveReporter(total, normalWorkAndRest, annualLeave, marriageLeave, maternityPaternityLeave, sickLeave,
                 bereavementLeave, officialLeave, matterLeave, overtimeInHoliday, overtimeInWeekends, other);
-        return new ErrorReporter(0,"success", data)
+        return new ErrorReporter(0,"success", data);
     }
 
 }
