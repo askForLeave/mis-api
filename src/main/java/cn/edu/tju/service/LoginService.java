@@ -1,6 +1,7 @@
 package cn.edu.tju.service;
 
 import cn.edu.tju.dao.UserRepo;
+import cn.edu.tju.dto.ResponseNameData;
 import cn.edu.tju.model.User;
 import cn.edu.tju.dto.ErrorReporter;
 
@@ -27,7 +28,7 @@ public class LoginService {
             User user = userRepo.findOne(username);
             if (passwordEncoder.matches(password, user.getPassword())) {
                 httpSession.setAttribute("user", user);
-                return new ErrorReporter(0, "success");
+                return new ErrorReporter(0, "success",new ResponseNameData(username));
             }else {
                 return new ErrorReporter(1, "password error");
             }

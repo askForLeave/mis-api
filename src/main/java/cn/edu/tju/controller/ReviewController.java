@@ -5,6 +5,7 @@ import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dto.ErrorReporter;
 import cn.edu.tju.dto.ResponseData;
 import cn.edu.tju.dto.ResponseLeaveApplication;
+import cn.edu.tju.dto.ResponseListData;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
@@ -56,7 +57,7 @@ public class ReviewController {
         for (LeaveApplication e:las) {
             list.add(new ResponseLeaveApplication(e));
         }
-        ResponseData data = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData data = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
         return new ErrorReporter(0, "success", data);
     }
 
@@ -79,7 +80,7 @@ public class ReviewController {
             list.add(new ResponseLeaveApplication(e));
         }
 
-        ResponseData data = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData data = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
         return new ErrorReporter(0, "success", data);
     }
 

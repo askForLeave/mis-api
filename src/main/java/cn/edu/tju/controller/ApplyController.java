@@ -3,9 +3,7 @@ package cn.edu.tju.controller;
 import cn.edu.tju.dao.LeaveAppRepo;
 import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dao.UserRepo;
-import cn.edu.tju.dto.ErrorReporter;
-import cn.edu.tju.dto.ResponseData;
-import cn.edu.tju.dto.ResponseLeaveApplication;
+import cn.edu.tju.dto.*;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
@@ -214,7 +212,7 @@ public class ApplyController {
 
         User curUser = ((User)httpSession.getAttribute("user"));
         Staff curStaff = staffRepo.findOne( curUser.getId() );
-        ResponseData rd = new ResponseData(curStaff.getId(), curStaff.getName(), curStaff.getManagerId(), curStaff.getManagerName(), curStaff.getDepartment(), curStaff.getAnnualTotal(), curStaff.getAnnualLeft());
+        ResponseInfoData rd = new ResponseInfoData(curStaff.getId(), curStaff.getName(), curStaff.getManagerId(), curStaff.getManagerName(), curStaff.getDepartment(), curStaff.getAnnualTotal(), curStaff.getAnnualLeft());
 
         return new ErrorReporter(0, "success", rd);
     }
@@ -266,7 +264,7 @@ public class ApplyController {
             list.add(new ResponseLeaveApplication(e));
         }
 
-        ResponseData responseData = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData responseData = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
 
         return new ErrorReporter(0, "success", responseData);
     }
@@ -292,7 +290,7 @@ public class ApplyController {
             list.add(new ResponseLeaveApplication(e));
         }
 
-        ResponseData responseData = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData responseData = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
 
         return new ErrorReporter(0, "success", responseData);
     }
