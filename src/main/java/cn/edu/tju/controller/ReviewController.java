@@ -144,6 +144,15 @@ public class ReviewController {
                         leaveDetail[i] = la.getType();
                     }
                 }
+            } else if (la.getType() == 10) {
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 109 || leaveDetail[i] == 108) {
+                        leaveDetail[i] -= 90;
+                        // 18, 19 in leave detail means work at holiday or weekends
+                    }
+                }
+            } else {
+                return new ErrorReporter(-1, "unknown type");
             }
         }
         applicantStaff.setLeaveDetail(gson.toJson(leaveDetail));
@@ -157,5 +166,4 @@ public class ReviewController {
 
         return new ErrorReporter(0, "success");
     }
-
 }

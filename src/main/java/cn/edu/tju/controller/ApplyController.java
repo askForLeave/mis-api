@@ -54,6 +54,10 @@ public class ApplyController {
             return new ErrorReporter(-1, "invalid submit status");
         }
 
+        if ( !Arrays.asList(1,2,3,4,5,6,7,10).contains(type)) {
+            return new ErrorReporter(-1, "unknown type");
+        }
+
         User curUser = ((User)httpSession.getAttribute("user"));
         if ( !curUser.getId().equals(username)) {
             return new ErrorReporter(-1, "should only apply leave for yourself");
@@ -92,9 +96,15 @@ public class ApplyController {
                     }
                 }
                 curStaff.setAnnualLeft(annualLeft);
-            } else {
+            } else if (Arrays.asList(2,3,4,5,6,7).contains(type)){
                 for (int i = startDayIndex; i <= endDayIndex; i++) {
                     if (leaveDetail[i] == 0) {
+                        leaveDetail[i] += 100;
+                    }
+                }
+            } else {
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 8 || leaveDetail[i] == 9) {
                         leaveDetail[i] += 100;
                     }
                 }
@@ -123,6 +133,10 @@ public class ApplyController {
 
         if (submitStatus != 1 && submitStatus != 2) {
             return new ErrorReporter(-1, "invalid submit status");
+        }
+
+        if ( !Arrays.asList(1,2,3,4,5,6,7,10).contains(type)) {
+            return new ErrorReporter(-1, "unknown type");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
@@ -174,9 +188,15 @@ public class ApplyController {
                     }
                 }
                 curStaff.setAnnualLeft(annualLeft);
-            } else {
+            } else if (Arrays.asList(2,3,4,5,6,7).contains(type)){
                 for (int i = startDayIndex; i <= endDayIndex; i++) {
                     if (leaveDetail[i] == 0) {
+                        leaveDetail[i] += 100;
+                    }
+                }
+            } else {
+                for (int i = startDayIndex; i <= endDayIndex; i++) {
+                    if (leaveDetail[i] == 8 || leaveDetail[i] == 9) {
                         leaveDetail[i] += 100;
                     }
                 }
