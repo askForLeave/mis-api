@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="85a755d7-d0db-4957-b7df-eaa684e83322" name="Default" comment="initialize  model and dao design">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ApplyController.java" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ApplyController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ReportController.java" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ReportController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ReviewController.java" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ReviewController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cn/edu/tju/dto/LeaveReporter.java" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/tju/dto/LeaveReporter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -78,8 +75,18 @@
       <file leaf-file-name="ApplyController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ApplyController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="80" column="13" lean-forward="true" selection-start-line="68" selection-start-column="12" selection-end-line="80" selection-end-column="13" />
+            <state relative-caret-position="-202">
+              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/service/LoginService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="71" column="5" lean-forward="true" selection-start-line="71" selection-start-column="5" selection-end-line="71" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -142,7 +149,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReportController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ReportController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ReportController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1059">
@@ -159,16 +166,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="411">
               <caret line="19" column="29" lean-forward="false" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -605,7 +602,6 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/dto/ListResponse.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/dto/ErrorReporter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/service/LoginService.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/model/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/dto/ResponseListItem.java" />
@@ -617,10 +613,11 @@
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/model/Staff.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/AskForLeaveApplication.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/model/LeaveApplication.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ApplyController.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ReviewController.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/dto/LeaveReporter.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ReportController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ApplyController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/edu/tju/service/LoginService.java" />
       </list>
     </option>
   </component>
@@ -728,6 +725,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="tju" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mis-api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mis-api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tju" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1212,7 +1239,7 @@
       <workItem from="1481719876515" duration="1643000" />
       <workItem from="1481771391058" duration="3451000" />
       <workItem from="1481880861560" duration="7515000" />
-      <workItem from="1481972653386" duration="6251000" />
+      <workItem from="1481972653386" duration="7747000" />
     </task>
     <task id="LOCAL-00001" summary="initialize  model and dao design">
       <created>1481207820077</created>
@@ -1225,7 +1252,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98714000" />
+    <option name="totallyTimeSpent" value="100210000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1250,7 +1277,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39508197" sideWeight="0.4978678" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35737705" sideWeight="0.4978678" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23600605" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1433902" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1625,17 +1652,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/service/LoginService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1450">
-          <caret line="68" column="54" lean-forward="false" selection-start-line="68" selection-start-column="54" selection-end-line="68" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2316#2317#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/model/Staff.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -1687,14 +1703,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="372">
           <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ApplyController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="80" column="13" lean-forward="true" selection-start-line="68" selection-start-column="12" selection-end-line="80" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1809,6 +1817,22 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/controller/ApplyController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-202">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/tju/service/LoginService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="71" column="5" lean-forward="true" selection-start-line="71" selection-start-column="5" selection-end-line="71" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
