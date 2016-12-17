@@ -5,6 +5,7 @@ import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dto.ErrorReporter;
 import cn.edu.tju.dto.ResponseData;
 import cn.edu.tju.dto.ResponseLeaveApplication;
+import cn.edu.tju.dto.ResponseListData;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
@@ -27,16 +28,16 @@ import java.util.List;
 public class ReviewController {
 
     @Autowired
-    LoginService loginService;
+    protected LoginService loginService;
 
     @Autowired
-    HttpSession httpSession;
+    protected HttpSession httpSession;
 
     @Autowired
-    LeaveAppRepo leaveAppRepo;
+    protected LeaveAppRepo leaveAppRepo;
 
     @Autowired
-    StaffRepo staffRepo;
+    protected StaffRepo staffRepo;
 
     @RequestMapping("/leave/review/todoList")
     public ErrorReporter todoList (String username, int page, int pageSize) {
@@ -51,12 +52,12 @@ public class ReviewController {
         int total = leaveAppRepo.countByManagerIdAndStatus(curStaff.getId(), 2);
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusOrderByIdDesc(curStaff.getId(), 2, pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusOrderByApplyTimeDesc(curStaff.getId(), 2, pageable);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e:las) {
             list.add(new ResponseLeaveApplication(e));
         }
-        ResponseData data = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData data = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
         return new ErrorReporter(0, "success", data);
     }
 
@@ -73,13 +74,13 @@ public class ReviewController {
         int total = leaveAppRepo.countByManagerIdAndStatusIn(curStaff.getId(), Arrays.asList(3,4));
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusInOrderByIdDesc(curStaff.getId(), Arrays.asList(3,4), pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByManagerIdAndStatusInOrderByApplyTimeDesc(curStaff.getId(), Arrays.asList(3,4), pageable);
         List<ResponseLeaveApplication> list = new ArrayList<>();
         for (LeaveApplication e: las) {
             list.add(new ResponseLeaveApplication(e));
         }
 
-        ResponseData data = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData data = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
         return new ErrorReporter(0, "success", data);
     }
 

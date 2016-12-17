@@ -1,6 +1,7 @@
 package cn.edu.tju.service;
 
 import cn.edu.tju.dao.UserRepo;
+import cn.edu.tju.dto.ResponseNameData;
 import cn.edu.tju.model.User;
 import cn.edu.tju.dto.ErrorReporter;
 
@@ -16,10 +17,10 @@ import java.util.Iterator;
 public class LoginService {
 
     @Autowired
-    private UserRepo userRepo;
+    protected UserRepo userRepo;
 
     @Autowired
-    private HttpSession httpSession;
+    protected HttpSession httpSession;
 
     public ErrorReporter login(String username, String password){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -27,7 +28,8 @@ public class LoginService {
             User user = userRepo.findOne(username);
             if (passwordEncoder.matches(password, user.getPassword())) {
                 httpSession.setAttribute("user", user);
-                return new ErrorReporter(0, "success");
+                ResponseNameData responseNameData = new ResponseNameData(username);
+                return new ErrorReporter(0, "success",responseNameData);
             }else {
                 return new ErrorReporter(1, "password error");
             }

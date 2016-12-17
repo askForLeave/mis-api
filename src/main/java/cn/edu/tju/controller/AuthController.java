@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    private LoginService loginService;
+    protected LoginService loginService;
 
     @RequestMapping(value = "/",method = RequestMethod.POST)
     public ErrorReporter index(String username, String password){

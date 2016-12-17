@@ -3,9 +3,7 @@ package cn.edu.tju.controller;
 import cn.edu.tju.dao.LeaveAppRepo;
 import cn.edu.tju.dao.StaffRepo;
 import cn.edu.tju.dao.UserRepo;
-import cn.edu.tju.dto.ErrorReporter;
-import cn.edu.tju.dto.ResponseData;
-import cn.edu.tju.dto.ResponseLeaveApplication;
+import cn.edu.tju.dto.*;
 import cn.edu.tju.model.LeaveApplication;
 import cn.edu.tju.model.Staff;
 import cn.edu.tju.model.User;
@@ -29,16 +27,16 @@ import java.util.List;
 public class ApplyController {
 
     @Autowired
-    private HttpSession httpSession;
+    protected HttpSession httpSession;
 
     @Autowired
-    private LoginService loginService;
+    protected LoginService loginService;
 
     @Autowired
-    private LeaveAppRepo leaveAppRepo;
+    protected LeaveAppRepo leaveAppRepo;
 
     @Autowired
-    private StaffRepo staffRepo;
+    protected StaffRepo staffRepo;
 
 
     @RequestMapping("/leave/apply/add")
@@ -214,7 +212,7 @@ public class ApplyController {
 
         User curUser = ((User)httpSession.getAttribute("user"));
         Staff curStaff = staffRepo.findOne( curUser.getId() );
-        ResponseData rd = new ResponseData(curStaff.getId(), curStaff.getName(), curStaff.getManagerId(), curStaff.getManagerName(), curStaff.getDepartment(), curStaff.getAnnualTotal(), curStaff.getAnnualLeft());
+        ResponseInfoData rd = new ResponseInfoData(curStaff.getId(), curStaff.getName(), curStaff.getManagerId(), curStaff.getManagerName(), curStaff.getDepartment(), curStaff.getAnnualTotal(), curStaff.getAnnualLeft());
 
         return new ErrorReporter(0, "success", rd);
     }
@@ -258,7 +256,7 @@ public class ApplyController {
         int total = leaveAppRepo.countByApplicantIdAndStatus(curStaff.getId(), 1);
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusOrderByIdDesc(curStaff.getId(), 1, pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusOrderByApplyTimeDesc(curStaff.getId(), 1, pageable);
 
         // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
         List<ResponseLeaveApplication> list = new ArrayList<>();
@@ -266,7 +264,7 @@ public class ApplyController {
             list.add(new ResponseLeaveApplication(e));
         }
 
-        ResponseData responseData = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData responseData = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
 
         return new ErrorReporter(0, "success", responseData);
     }
@@ -284,7 +282,7 @@ public class ApplyController {
         int total = leaveAppRepo.countByApplicantIdAndStatusIn(curStaff.getId(), Arrays.asList(2,3,4));
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInOrderByIdDesc(curStaff.getId(), Arrays.asList(2,3,4), pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInOrderByApplyTimeDesc(curStaff.getId(), Arrays.asList(2,3,4), pageable);
 
         // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
         List<ResponseLeaveApplication> list = new ArrayList<>();
@@ -292,7 +290,7 @@ public class ApplyController {
             list.add(new ResponseLeaveApplication(e));
         }
 
-        ResponseData responseData = new ResponseData(page, pageSize, total, curStaff.getId(), list);
+        ResponseListData responseData = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
 
         return new ErrorReporter(0, "success", responseData);
     }
