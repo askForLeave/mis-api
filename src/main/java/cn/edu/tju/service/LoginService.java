@@ -42,14 +42,9 @@ public class LoginService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         password = passwordEncoder.encode(password);
         if ( !userRepo.exists(username) ) {
-            try {
-                User user = new User(username,password);
-                userRepo.save(user);
-                return new ErrorReporter(0, "success");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                return new ErrorReporter(-1, "unknown error");
-            }
+            User user = new User(username,password);
+            userRepo.save(user);
+            return new ErrorReporter(0, "success");
         } else {
             return new ErrorReporter(3, "duplication error");
         }
@@ -65,10 +60,10 @@ public class LoginService {
 
     public ErrorReporter logout() {
         if (httpSession.getAttribute("user") == null){
-            return  new ErrorReporter(-1, "not login");
+            return  new ErrorReporter(4, "not login");
         }
         httpSession.setAttribute("user", null);
-        return new ErrorReporter(0, "logout success");
+        return new ErrorReporter(0, "success");
     }
 
     public HttpSession getHttpSession() {

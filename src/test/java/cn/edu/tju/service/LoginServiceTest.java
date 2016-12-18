@@ -24,8 +24,7 @@ public class LoginServiceTest {
     private ErrorReporter passworderror = new ErrorReporter(1, "password error");
     private ErrorReporter noaccount = new ErrorReporter(2, "no account");
     private ErrorReporter duplicationerror = new ErrorReporter(3, "duplication error");
-    private ErrorReporter notlogin = new ErrorReporter(-1, "not login");
-    private ErrorReporter logoutsuccess = new ErrorReporter(0, "logout success");
+    private ErrorReporter notlogin = new ErrorReporter(4, "not login");
 
     @Before
     public void setUp() throws Exception {
@@ -126,7 +125,7 @@ public class LoginServiceTest {
         loginService.httpSession = mock(HttpSession.class);
         when(loginService.httpSession.getAttribute("user")).thenReturn("test");
         ErrorReporter actualReporter = loginService.logout();
-        String expected = gson.toJson(logoutsuccess);
+        String expected = gson.toJson(success);
         String actual = gson.toJson(actualReporter);
         assertEquals(expected,actual);
     }

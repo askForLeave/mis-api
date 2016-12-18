@@ -32,11 +32,12 @@ import static org.mockito.Mockito.when;
 public class ReviewControllerTest {
     private ReviewController reviewController;
     private Gson gson;
-    private ErrorReporter nologin = new ErrorReporter(-1, "not login");
-    private ErrorReporter noexist = new ErrorReporter(-1, "application id don't exist");
-    private ErrorReporter noauthority = new ErrorReporter(-1, "no authority for this leave application");
-    private ErrorReporter nopublish = new ErrorReporter(-1, "could not review this leave application, has reviewed or hasn't publish");
-    private ErrorReporter wrongstatus = new ErrorReporter(-1, "wrong status");
+    private ErrorReporter nologin = new ErrorReporter(4, "not login");
+    private ErrorReporter unknowntype = new ErrorReporter(13, "unknown type");
+    private ErrorReporter noexist = new ErrorReporter(19, "application id don't exist");
+    private ErrorReporter noauthority = new ErrorReporter(23, "no authority for this leave application");
+    private ErrorReporter nopublish = new ErrorReporter(24, "could not review this leave application, has reviewed or hasn't publish");
+    private ErrorReporter wrongstatus = new ErrorReporter(25, "wrong status");
     private ErrorReporter success = new ErrorReporter(0, "success");
     private ErrorReporter success2;
     @Before
@@ -237,6 +238,31 @@ public class ReviewControllerTest {
 
     @Test
     public void actionTest6() throws Exception {
+        reviewController.loginService = mock(LoginService.class);
+        when(reviewController.loginService.isLogin()).thenReturn(true);
+        reviewController.httpSession = mock(HttpSession.class);
+        User user = new User("testM","test");
+        when((reviewController.httpSession.getAttribute("user"))).thenReturn(user);
+        reviewController.staffRepo = mock(StaffRepo.class);
+        int leaveditail[] = new int [400];
+        for(int i=0;i<400;i++)leaveditail[i]=1;
+        Staff staff = new Staff("testM","test",1,20,20,"test","testM","testM",gson.toJson(leaveditail));
+        when(reviewController.staffRepo.findOne(user.getId())).thenReturn(staff);
+        reviewController.leaveAppRepo = mock(LeaveAppRepo.class);
+        when(reviewController.leaveAppRepo.exists(1)).thenReturn(true);
+        int curTime = (int) (System.currentTimeMillis() / 1000L);
+        LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 8, 2, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
+        when(reviewController.leaveAppRepo.findOne(1)).thenReturn(leaveApplication);
+        Staff staff2 = new Staff("testM","test",1,20,20,"test","testM","testM",gson.toJson(leaveditail));
+        when((reviewController.staffRepo.findOne(leaveApplication.getApplicantId()))).thenReturn(staff2);
+        ErrorReporter actualReporter = reviewController.action(1,4,"");
+        String expected = gson.toJson(unknowntype);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void actionTest7() throws Exception {
         reviewController.loginService = mock(LoginService.class);
         when(reviewController.loginService.isLogin()).thenReturn(true);
         reviewController.httpSession = mock(HttpSession.class);

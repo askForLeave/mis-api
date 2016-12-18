@@ -18,8 +18,8 @@ import static org.mockito.Mockito.when;
 public class AuthControllerTest {
     private AuthController authController;
     private Gson gson;
-    private ErrorReporter nologin = new ErrorReporter(0, "index page: not log in");
-    private ErrorReporter success = new ErrorReporter(0, "index page: hello test");
+    private ErrorReporter nologin = new ErrorReporter(100, "index page: not log in");
+    private ErrorReporter success = new ErrorReporter(100, "index page: hello test");
     @Before
     public void setUp() throws Exception {
         authController = new AuthController();

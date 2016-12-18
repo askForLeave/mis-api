@@ -43,7 +43,7 @@ public class ReviewController {
     public ErrorReporter todoList (String username, int page, int pageSize) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = (User) httpSession.getAttribute("user");
@@ -65,7 +65,7 @@ public class ReviewController {
     public ErrorReporter doneList(String username, int page, int pageSize) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = (User) httpSession.getAttribute("user");
@@ -88,7 +88,7 @@ public class ReviewController {
     public ErrorReporter action(int id, int status, String reviewReason) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = (User) httpSession.getAttribute("user");
@@ -98,19 +98,19 @@ public class ReviewController {
         if (leaveAppRepo.exists(id)) {
             la = leaveAppRepo.findOne(id);
         } else {
-            return new ErrorReporter(-1, "application id don't exist");
+            return new ErrorReporter(19, "application id don't exist");
         }
 
         if ( !la.getManagerId().equals(curStaff.getId())) {
-            return new ErrorReporter(-1, "no authority for this leave application");
+            return new ErrorReporter(23, "no authority for this leave application");
         }
 
         if (la.getStatus() != 2) {
-            return new ErrorReporter(-1, "could not review this leave application, has reviewed or hasn't publish");
+            return new ErrorReporter(24, "could not review this leave application, has reviewed or hasn't publish");
         }
 
         if (status != 3 && status != 4) {
-            return new ErrorReporter(-1, "wrong status");
+            return new ErrorReporter(25, "wrong status");
         }
 
         Staff applicantStaff = staffRepo.findOne(la.getApplicantId());
@@ -152,7 +152,7 @@ public class ReviewController {
                     }
                 }
             } else {
-                return new ErrorReporter(-1, "unknown type");
+                return new ErrorReporter(13, "unknown type");
             }
         }
         applicantStaff.setLeaveDetail(gson.toJson(leaveDetail));

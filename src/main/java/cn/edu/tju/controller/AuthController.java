@@ -26,7 +26,7 @@ public class AuthController {
             msg = "not log in";
         }
 
-        return new ErrorReporter(0, "index page: " + msg);
+        return new ErrorReporter(100, "index page: " + msg);
     }
 
     @RequestMapping(value = "/leave/auth/login",method = RequestMethod.POST)

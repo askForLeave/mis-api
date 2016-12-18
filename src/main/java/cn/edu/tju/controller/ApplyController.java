@@ -44,24 +44,24 @@ public class ApplyController {
     public ErrorReporter add(String username, int startTime, int endTime, int type, String reason, int submitStatus) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         if (startTime > endTime) {
-            return new ErrorReporter(-1, "invalid start time and end time");
+            return new ErrorReporter(11, "invalid start time and end time");
         }
 
         if (submitStatus != 1 && submitStatus != 2) {
-            return new ErrorReporter(-1, "invalid submit status");
+            return new ErrorReporter(12, "invalid submit status");
         }
 
         if ( !Arrays.asList(1,2,3,4,5,6,7,10).contains(type)) {
-            return new ErrorReporter(-1, "unknown type");
+            return new ErrorReporter(13, "unknown type");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
         if ( !curUser.getId().equals(username)) {
-            return new ErrorReporter(-1, "should only apply leave for yourself");
+            return new ErrorReporter(14, "should only apply leave for yourself");
         }
 
         Staff curStaff = staffRepo.findOne( curUser.getId() );
@@ -77,7 +77,7 @@ public class ApplyController {
 
             for (int i = startDayIndex; i <= endDayIndex; i++) {
                 if ( leaveDetail[i] != 0 && leaveDetail[i] != 9 && leaveDetail[i] != 8) {
-                    return new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
+                    return new ErrorReporter(15, "invalid period for leave application, please check your start time and end time");
                 }
             }
 
@@ -89,7 +89,7 @@ public class ApplyController {
                     }
                 }
                 if (annualLeft < 0){
-                    return new ErrorReporter(-1, "your left annual leave is not enough");
+                    return new ErrorReporter(16, "your left annual leave is not enough");
                 }
                 for (int i = startDayIndex; i <= endDayIndex; i++) {
                     if (leaveDetail[i] == 0) {
@@ -125,36 +125,36 @@ public class ApplyController {
     public ErrorReporter modify(String username, int startTime, int endTime, int type, String reason, int submitStatus, int id) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         if (startTime > endTime) {
-            return new ErrorReporter(-1, "invalid start time and end time");
+            return new ErrorReporter(11, "invalid start time and end time");
         }
 
         if (submitStatus != 1 && submitStatus != 2) {
-            return new ErrorReporter(-1, "invalid submit status");
+            return new ErrorReporter(12, "invalid submit status");
         }
 
         if ( !Arrays.asList(1,2,3,4,5,6,7,10).contains(type)) {
-            return new ErrorReporter(-1, "unknown type");
+            return new ErrorReporter(13, "unknown type");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
         Staff curStaff = staffRepo.findOne( curUser.getId() );
         if ( !curUser.getId().equals(username)) {
-            return new ErrorReporter(-1, "should only modify leave applications for yourself");
+            return new ErrorReporter(18, "should only modify leave applications for yourself");
         }
 
         LeaveApplication la;
         if (leaveAppRepo.exists(id)){
             la = leaveAppRepo.findOne(id);
         } else {
-            return new ErrorReporter(-1, "application not exist");
+            return new ErrorReporter(19, "application not exist");
         }
 
         if (la.getStatus() != 1 || !la.getApplicantName().equals(curStaff.getId()) ) {
-            return new ErrorReporter(-1, "can not modify");
+            return new ErrorReporter(20, "can not modify");
         }
 
         if (submitStatus == 2) {    // then change the leave details of the staff
@@ -169,7 +169,7 @@ public class ApplyController {
 
             for (int i = startDayIndex; i <= endDayIndex; i++) {
                 if ( leaveDetail[i] != 0 && leaveDetail[i] != 8 && leaveDetail[i] != 9) {
-                    return new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
+                    return new ErrorReporter(15, "invalid period for leave application, please check your start time and end time");
                 }
             }
 
@@ -181,7 +181,7 @@ public class ApplyController {
                     }
                 }
                 if (annualLeft < 0){
-                    return new ErrorReporter(-1, "your left annual leave is not enough");
+                    return new ErrorReporter(16, "your left annual leave is not enough");
                 }
                 for (int i = startDayIndex; i <= endDayIndex; i++) {
                     if (leaveDetail[i] == 0) {
@@ -228,7 +228,7 @@ public class ApplyController {
     public ErrorReporter info(String username) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
@@ -242,7 +242,7 @@ public class ApplyController {
     public ErrorReporter info(int id) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
@@ -252,11 +252,11 @@ public class ApplyController {
         if (leaveAppRepo.exists(id)){
             la = leaveAppRepo.findOne(id);
         } else {
-            return new ErrorReporter(-1, "application not exist");
+            return new ErrorReporter(19, "application not exist");
         }
 
         if (la.getStatus() != 1 || !la.getApplicantName().equals(curStaff.getId()) ) {
-            return new ErrorReporter(-1, "can not delete");
+            return new ErrorReporter(21, "can not delete");
         }
 
         leaveAppRepo.delete(la);
@@ -268,7 +268,7 @@ public class ApplyController {
     public ErrorReporter draftList(String username, int page, int pageSize) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
@@ -296,7 +296,7 @@ public class ApplyController {
     public ErrorReporter publishList(String username, int page, int pageSize) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
@@ -324,7 +324,7 @@ public class ApplyController {
     public ErrorReporter overtimeDraftList(String username, int page, int pageSize) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));
@@ -350,7 +350,7 @@ public class ApplyController {
     public ErrorReporter overtimePublishList(String username, int page, int pageSize) {
 
         if ( !loginService.isLogin()) {
-            return new ErrorReporter(-1, "not login");
+            return new ErrorReporter(4, "not login");
         }
 
         User curUser = ((User)httpSession.getAttribute("user"));

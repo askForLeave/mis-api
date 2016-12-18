@@ -27,17 +27,19 @@ import static org.mockito.Mockito.when;
 
 
 public class ApplyControllerTest {
-    private ErrorReporter nologin = new ErrorReporter(-1, "not login");
-    private ErrorReporter invalidtime = new ErrorReporter(-1, "invalid start time and end time");
-    private ErrorReporter invalidstatus = new ErrorReporter(-1, "invalid submit status");
-    private ErrorReporter erroruser = new ErrorReporter(-1, "should only apply leave for yourself");
-    private ErrorReporter invalidperiod = new ErrorReporter(-1, "invalid period for leave application, please check your start time and end time");
-    private ErrorReporter erroruser2 = new ErrorReporter(-1, "should only modify leave applications for yourself");
-    private ErrorReporter noexist = new ErrorReporter(-1, "application not exist");
-    private ErrorReporter nomodify = new ErrorReporter(-1, "can not modify");
+    private ErrorReporter nologin = new ErrorReporter(4, "not login");
+    private ErrorReporter invalidtime = new ErrorReporter(11, "invalid start time and end time");
+    private ErrorReporter invalidstatus = new ErrorReporter(12, "invalid submit status");
+    private ErrorReporter unknowntype = new ErrorReporter(13, "unknown type");
+    private ErrorReporter erroruser = new ErrorReporter(14, "should only apply leave for yourself");
+    private ErrorReporter invalidperiod = new ErrorReporter(15, "invalid period for leave application, please check your start time and end time");
+    private ErrorReporter noenoughannual = new ErrorReporter(16, "your left annual leave is not enough");
+    private ErrorReporter erroruser2 = new ErrorReporter(18, "should only modify leave applications for yourself");
+    private ErrorReporter noexist = new ErrorReporter(19, "application not exist");
+    private ErrorReporter nomodify = new ErrorReporter(20, "can not modify");
     private ErrorReporter success = new ErrorReporter(0, "success");
     private ErrorReporter success2;
-    private ErrorReporter nodelete = new ErrorReporter(-1, "can not delete");
+    private ErrorReporter nodelete = new ErrorReporter(21, "can not delete");
     private ApplyController applyController;
     private Gson gson;
     @Before
@@ -85,6 +87,16 @@ public class ApplyControllerTest {
     public void addTest4() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
+        ErrorReporter actualReporter = applyController.add("test",1,2,8,"test",1);
+        String expected = gson.toJson(unknowntype);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void addTest5() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
         User testuser = new User("error","test");
         when(applyController.httpSession.getAttribute("user")).thenReturn(testuser);
@@ -95,7 +107,7 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void addTest5() throws Exception {
+    public void addTest6() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
@@ -113,7 +125,31 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void addTest6() throws Exception {
+    public void addTest7() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(true);
+        applyController.httpSession = mock(HttpSession.class);
+        User testuser = new User("test","test");
+        when(applyController.httpSession.getAttribute("user")).thenReturn(testuser);
+        applyController.staffRepo = mock(StaffRepo.class);
+        int leaveDetail[] = new int [400];
+        leaveDetail[0] = 0;
+        for (int i = 2; i < leaveDetail.length; i += 7) {
+            leaveDetail[i] = 9;
+            leaveDetail[i-1] = 9;
+        }
+        if ((leaveDetail.length - 1) % 7 == 2)	leaveDetail[leaveDetail.length - 1] = 9;
+        leaveDetail[5] = 1;
+        Staff staff = new Staff("test","test",1,20,0,"test","testM","testM",gson.toJson(leaveDetail));
+        when(applyController.staffRepo.findOne(testuser.getId())).thenReturn(staff);
+        ErrorReporter actualReporter = applyController.add("test",1456761600,1457625600,1,"test",2);
+        String expected = gson.toJson(noenoughannual);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void addTest8() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
@@ -141,7 +177,7 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void addTest7() throws Exception {
+    public void addTest9() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
@@ -202,6 +238,16 @@ public class ApplyControllerTest {
     public void modifyTest4() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
+        ErrorReporter actualReporter = applyController.modify("test",1,2,8,"test",1,1);
+        String expected = gson.toJson(unknowntype);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void modifyTest5() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
         User testuser = new User("error","test");
         when(applyController.httpSession.getAttribute("user")).thenReturn(testuser);
@@ -217,7 +263,7 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void modifyTest5() throws Exception {
+    public void modifyTest6() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
@@ -237,7 +283,7 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void modifyTest6() throws Exception {
+    public void modifyTest7() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
@@ -260,7 +306,7 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void modifyTest7() throws Exception {
+    public void modifyTest8() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
@@ -283,7 +329,39 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void modifyTest8() throws Exception {
+    public void modifyTest9() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(true);
+        applyController.httpSession = mock(HttpSession.class);
+        User testuser = new User("test","test");
+        when(applyController.httpSession.getAttribute("user")).thenReturn(testuser);
+        applyController.staffRepo = mock(StaffRepo.class);
+        int leaveDetail[] = new int [400];
+        leaveDetail[0] = 0;
+        for (int i = 2; i < leaveDetail.length; i += 7) {
+            leaveDetail[i] = 9;
+            leaveDetail[i-1] = 9;
+        }
+        if ((leaveDetail.length - 1) % 7 == 2)	leaveDetail[leaveDetail.length - 1] = 9;
+        leaveDetail[5] = 1;
+        Staff staff = new Staff("test","test",1,20,20,"test","testM","testM",gson.toJson(leaveDetail));
+        when(applyController.staffRepo.findOne(testuser.getId())).thenReturn(staff);
+        applyController.leaveAppRepo = mock(LeaveAppRepo.class);
+        when(applyController.leaveAppRepo.exists(1)).thenReturn(true);
+        int curTime = (int) (System.currentTimeMillis() / 1000L);
+        LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 1, 1, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
+        when(applyController.leaveAppRepo.findOne(1)).thenReturn(leaveApplication);
+        applyController.staffRepo = mock(StaffRepo.class);
+        Staff staff2 = new Staff("test","test",1,20,0,"test","testM","testM",gson.toJson(leaveDetail));
+        when(applyController.staffRepo.findOne(leaveApplication.getApplicantId())).thenReturn(staff2);
+        ErrorReporter actualReporter = applyController.modify("test",1456761600,1457625600,1,"test",2,1);
+        String expected = gson.toJson(noenoughannual);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void modifyTes10() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
@@ -315,7 +393,7 @@ public class ApplyControllerTest {
     }
 
     @Test
-    public void modifyTest9() throws Exception {
+    public void modifyTest11() throws Exception {
         applyController.loginService = mock(LoginService.class);
         when(applyController.loginService.isLogin()).thenReturn(true);
         applyController.httpSession = mock(HttpSession.class);
