@@ -536,4 +536,90 @@ public class ApplyControllerTest {
         assertEquals(expected,actual);
     }
 
+    @Test
+    public void overtimeDraftListTest1() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(false);
+        ErrorReporter actualReporter = applyController.overtimeDraftList("test",1,1);
+        String expected = gson.toJson(nologin);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void overtimeDraftListTest2() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(true);
+        applyController.httpSession = mock(HttpSession.class);
+        User testuser = new User("test","test");
+        when(applyController.httpSession.getAttribute("user")).thenReturn(testuser);
+        applyController.staffRepo = mock(StaffRepo.class);
+        int leaveDetail[] = new int [400];
+        for(int i=0;i<400;i++)leaveDetail[i]=0;
+        Staff staff = new Staff("test","test",1,20,20,"test","testM","testM",gson.toJson(leaveDetail));
+        when(applyController.staffRepo.findOne(testuser.getId())).thenReturn(staff);
+        applyController.leaveAppRepo = mock(LeaveAppRepo.class);
+        when(applyController.leaveAppRepo.countByApplicantIdAndStatusInAndTypeIn(staff.getId(), Collections.singletonList(1), Collections.singletonList(10))).thenReturn(100);
+        Pageable pageable = new PageRequest(0, 1);
+        List<LeaveApplication> LeaveApplicationlist = new ArrayList<>();
+        int curTime = (int) (System.currentTimeMillis() / 1000L);
+        LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 1, 1, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
+        LeaveApplicationlist.add(leaveApplication);
+        when(applyController.leaveAppRepo.findByApplicantIdAndStatusInAndTypeInOrderByApplyTimeDesc(staff.getId(), Collections.singletonList(1), Collections.singletonList(10), pageable)).thenReturn(LeaveApplicationlist);
+        List<ResponseLeaveApplication> list = new ArrayList<>();
+        for (LeaveApplication e : LeaveApplicationlist){
+            list.add(new ResponseLeaveApplication(e));
+        }
+        ResponseListData responseData = new ResponseListData(1, 1, 100, staff.getId(), list);
+        success2 = new ErrorReporter(0, "success");
+        success2.setData(responseData);
+        ErrorReporter actualReporter = applyController.overtimeDraftList("test",1,1);
+        String expected = gson.toJson(success2);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void overtimePublishListTest1() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(false);
+        ErrorReporter actualReporter = applyController.overtimePublishList("test",1,1);
+        String expected = gson.toJson(nologin);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void overtimePublishListTest2() throws Exception {
+        applyController.loginService = mock(LoginService.class);
+        when(applyController.loginService.isLogin()).thenReturn(true);
+        applyController.httpSession = mock(HttpSession.class);
+        User testuser = new User("test","test");
+        when(applyController.httpSession.getAttribute("user")).thenReturn(testuser);
+        applyController.staffRepo = mock(StaffRepo.class);
+        int leaveDetail[] = new int [400];
+        for(int i=0;i<400;i++)leaveDetail[i]=0;
+        Staff staff = new Staff("test","test",1,20,20,"test","testM","testM",gson.toJson(leaveDetail));
+        when(applyController.staffRepo.findOne(testuser.getId())).thenReturn(staff);
+        applyController.leaveAppRepo = mock(LeaveAppRepo.class);
+        when(applyController.leaveAppRepo.countByApplicantIdAndStatusInAndTypeIn(staff.getId(), Arrays.asList(2,3,4), Collections.singletonList(10))).thenReturn(100);
+        Pageable pageable = new PageRequest(0, 1);
+        List<LeaveApplication> LeaveApplicationlist = new ArrayList<>();
+        int curTime = (int) (System.currentTimeMillis() / 1000L);
+        LeaveApplication leaveApplication = new LeaveApplication("test" , ""+staff.getName() , 1456761600 , 1457625600 , curTime , "", 1, 1, ""+ staff.getDepartment(), staff.getManagerId(), staff.getManagerName(), 0 , "");
+        LeaveApplicationlist.add(leaveApplication);
+        when(applyController.leaveAppRepo.findByApplicantIdAndStatusInAndTypeInOrderByApplyTimeDesc(staff.getId(), Arrays.asList(2,3,4), Collections.singletonList(10), pageable)).thenReturn(LeaveApplicationlist);
+        List<ResponseLeaveApplication> list = new ArrayList<>();
+        for (LeaveApplication e : LeaveApplicationlist){
+            list.add(new ResponseLeaveApplication(e));
+        }
+        ResponseListData responseData = new ResponseListData(1, 1, 100, staff.getId(), list);
+        success2 = new ErrorReporter(0, "success");
+        success2.setData(responseData);
+        ErrorReporter actualReporter = applyController.overtimePublishList("test",1,1);
+        String expected = gson.toJson(success2);
+        String actual = gson.toJson(actualReporter);
+        assertEquals(expected,actual);
+    }
+
 }
