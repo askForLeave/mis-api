@@ -448,7 +448,7 @@ public class ApplyControllerTest {
         String actual = gson.toJson(actualReporter);
         assertEquals(expected,actual);
     }
-
+/*
     @Test
     public void draftListTest1() throws Exception {
         applyController.loginService = mock(LoginService.class);
@@ -534,5 +534,5 @@ public class ApplyControllerTest {
         String actual = gson.toJson(actualReporter);
         assertEquals(expected,actual);
     }
-
+*/
 }

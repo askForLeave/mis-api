@@ -46,8 +46,6 @@ public class AskForLeaveApplication {
 			staffRepo.save(new Staff("Jack", "Jack", 1,15, 5, "dev", "Alice", "Alice", "" + leaveDetailJS));
 			staffRepo.save(new Staff("Alice", "Alice", 2,15, 5, "dev", "Bob", "Bob", "" + leaveDetailJS));
 
-
-
 		};
 	}
 }

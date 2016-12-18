@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -273,10 +274,10 @@ public class ApplyController {
         User curUser = ((User)httpSession.getAttribute("user"));
         Staff curStaff = staffRepo.findOne( curUser.getId() );
 
-        int total = leaveAppRepo.countByApplicantIdAndStatus(curStaff.getId(), 1);
+        int total = leaveAppRepo.countByApplicantIdAndStatusInAndTypeIn(curStaff.getId(), Collections.singletonList(1), Arrays.asList(1,2,3,4,5,6,7));
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusOrderByApplyTimeDesc(curStaff.getId(), 1, pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInAndTypeInOrderByApplyTimeDesc(curStaff.getId(), Collections.singletonList(1), Arrays.asList(1,2,3,4,5,6,7), pageable);
 
         // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
         List<ResponseLeaveApplication> list = new ArrayList<>();
@@ -299,10 +300,10 @@ public class ApplyController {
         User curUser = ((User)httpSession.getAttribute("user"));
         Staff curStaff = staffRepo.findOne( curUser.getId() );
 
-        int total = leaveAppRepo.countByApplicantIdAndStatusIn(curStaff.getId(), Arrays.asList(2,3,4));
+        int total = leaveAppRepo.countByApplicantIdAndStatusInAndTypeIn(curStaff.getId(), Arrays.asList(2,3,4), Arrays.asList(1,2,3,4,5,6,7));
 
         Pageable pageable = new PageRequest(page - 1, pageSize);
-        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInOrderByApplyTimeDesc(curStaff.getId(), Arrays.asList(2,3,4), pageable);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInAndTypeInOrderByApplyTimeDesc(curStaff.getId(), Arrays.asList(2,3,4), Arrays.asList(1,2,3,4,5,6,7), pageable);
 
         // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
         List<ResponseLeaveApplication> list = new ArrayList<>();
@@ -314,4 +315,57 @@ public class ApplyController {
 
         return new ErrorReporter(0, "success", responseData);
     }
+
+    @RequestMapping("/leave/apply/overtimeDraftList")
+    public ErrorReporter overtimeDraftList(String username, int page, int pageSize) {
+
+        if ( !loginService.isLogin()) {
+            return new ErrorReporter(-1, "not login");
+        }
+
+        User curUser = ((User)httpSession.getAttribute("user"));
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
+
+        int total = leaveAppRepo.countByApplicantIdAndStatusInAndTypeIn(curStaff.getId(), Collections.singletonList(1), Collections.singletonList(10));
+
+        Pageable pageable = new PageRequest(page - 1, pageSize);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInAndTypeInOrderByApplyTimeDesc(curStaff.getId(), Collections.singletonList(1), Collections.singletonList(10), pageable);
+
+        // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
+        List<ResponseLeaveApplication> list = new ArrayList<>();
+        for (LeaveApplication e : las){
+            list.add(new ResponseLeaveApplication(e));
+        }
+
+        ResponseListData responseData = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
+
+        return new ErrorReporter(0, "success", responseData);
+    }
+
+    @RequestMapping("/leave/apply/overtimePublishList")
+    public ErrorReporter overtimePublishList(String username, int page, int pageSize) {
+
+        if ( !loginService.isLogin()) {
+            return new ErrorReporter(-1, "not login");
+        }
+
+        User curUser = ((User)httpSession.getAttribute("user"));
+        Staff curStaff = staffRepo.findOne( curUser.getId() );
+
+        int total = leaveAppRepo.countByApplicantIdAndStatusInAndTypeIn(curStaff.getId(), Arrays.asList(2,3,4), Collections.singletonList(10));
+
+        Pageable pageable = new PageRequest(page - 1, pageSize);
+        List<LeaveApplication> las = leaveAppRepo.findByApplicantIdAndStatusInAndTypeInOrderByApplyTimeDesc(curStaff.getId(), Arrays.asList(2,3,4), Collections.singletonList(10), pageable);
+
+        // parse to format for transfer, that is caused by not strictly follow the agreement with front side when develop.
+        List<ResponseLeaveApplication> list = new ArrayList<>();
+        for (LeaveApplication e : las){
+            list.add(new ResponseLeaveApplication(e));
+        }
+
+        ResponseListData responseData = new ResponseListData(page, pageSize, total, curStaff.getId(), list);
+
+        return new ErrorReporter(0, "success", responseData);
+    }
+
 }
