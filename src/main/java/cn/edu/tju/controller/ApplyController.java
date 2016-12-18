@@ -104,11 +104,10 @@ public class ApplyController {
                     }
                 }
             } else {
-                for (int i = startDayIndex; i <= endDayIndex; i++) {
-                    if (leaveDetail[i] == 8 || leaveDetail[i] == 9) {
-                        leaveDetail[i] += 100;
-                    }
-                }
+                if(startDayIndex != endDayIndex || (leaveDetail[startDayIndex] != 8 && leaveDetail[startDayIndex] != 9))
+                    return new ErrorReporter(17, "can not apply overtime");
+                else
+                    leaveDetail[startDayIndex] += 100;
             }
 
             curStaff.setLeaveDetail(gson.toJson(leaveDetail));
@@ -196,11 +195,10 @@ public class ApplyController {
                     }
                 }
             } else {
-                for (int i = startDayIndex; i <= endDayIndex; i++) {
-                    if (leaveDetail[i] == 8 || leaveDetail[i] == 9) {
-                        leaveDetail[i] += 100;
-                    }
-                }
+                if(startDayIndex != endDayIndex || (leaveDetail[startDayIndex] != 8 && leaveDetail[startDayIndex] != 9))
+                    return new ErrorReporter(17, "can not apply overtime");
+                else
+                    leaveDetail[startDayIndex] += 100;
             }
 
             curStaff.setLeaveDetail(gson.toJson(leaveDetail));
