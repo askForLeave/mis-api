@@ -29,7 +29,7 @@ public class AskForLeaveApplication {
 			userRepo.save(new User("Jack", password));
 			userRepo.save(new User("Alice", password));
 
-			int[] leaveDetail = new int[400];
+			int[] leaveDetail = new int[3660];
 			leaveDetail[0] = 0;	// leaveDetail[0] is the day 2016-01-01
 
 			for (int i = 2; i < leaveDetail.length; i += 7) {
@@ -43,8 +43,8 @@ public class AskForLeaveApplication {
 			Gson gson = new Gson();
 			String leaveDetailJS = gson.toJson(leaveDetail);
 
-			staffRepo.save(new Staff("Jack", "Jack", 1,15, 5, "dev", "Alice", "Alice", "" + leaveDetailJS));
-			staffRepo.save(new Staff("Alice", "Alice", 2,15, 5, "dev", "Bob", "Bob", "" + leaveDetailJS));
+			staffRepo.save(new Staff("Jack", "Jack", 1,15, 10, "dev", "Alice", "Alice", "" + leaveDetailJS));
+			staffRepo.save(new Staff("Alice", "Alice", 2,15, 10, "dev", "Bob", "Bob", "" + leaveDetailJS));
 
 		};
 	}
