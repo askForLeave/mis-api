@@ -39,6 +39,7 @@ public class AskForLeaveApplication {
 			if ((leaveDetail.length - 1) % 7 == 2)	leaveDetail[leaveDetail.length - 1] = 9;
 
 			leaveDetail[5] = 1;
+			leaveDetail[6] = 1;
 
 			Gson gson = new Gson();
 			String leaveDetailJS = gson.toJson(leaveDetail);
