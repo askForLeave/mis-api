@@ -122,7 +122,7 @@ public class ReviewController {
         int startDayIndex = Days.daysBetween(initialDay, startDay).getDays();
         int endDayIndex = Days.daysBetween(initialDay, endDay).getDays();
 
-        if (status == 3) {  // not approved
+        if (status == 4) {  // not approved
             for (int i = startDayIndex; i <= endDayIndex; i++) {
                 if(leaveDetail[i] >= 100) {
                     leaveDetail[i] -= 100;
@@ -137,7 +137,7 @@ public class ReviewController {
                 }
                 applicantStaff.setAnnualLeft(annualLeft);
             }
-        } else {    // status == 4, approved
+        } else {    // status == 3, approved
             if (Arrays.asList(1,2,3,4,5,6,7).contains(la.getType())) {
                 for (int i = startDayIndex; i <= endDayIndex; i++) {
                     if (leaveDetail[i] == 100) {

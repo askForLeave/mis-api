@@ -43,8 +43,8 @@ public class AskForLeaveApplication {
 			Gson gson = new Gson();
 			String leaveDetailJS = gson.toJson(leaveDetail);
 
-			staffRepo.save(new Staff("Jack", "Jack", 1,15, 10, "dev", "Alice", "Alice", "" + leaveDetailJS));
-			staffRepo.save(new Staff("Alice", "Alice", 2,15, 10, "dev", "Bob", "Bob", "" + leaveDetailJS));
+			staffRepo.save(new Staff("Jack", "Jack", 1,12, 10, "dev", "Alice", "Alice", "" + leaveDetailJS));
+			staffRepo.save(new Staff("Alice", "Alice", 2,12, 10, "dev", "Bob", "Bob", "" + leaveDetailJS));
 
 		};
 	}

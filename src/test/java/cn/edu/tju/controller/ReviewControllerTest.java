@@ -255,7 +255,7 @@ public class ReviewControllerTest {
         when(reviewController.leaveAppRepo.findOne(1)).thenReturn(leaveApplication);
         Staff staff2 = new Staff("testM","test",1,20,20,"test","testM","testM",gson.toJson(leaveditail));
         when((reviewController.staffRepo.findOne(leaveApplication.getApplicantId()))).thenReturn(staff2);
-        ErrorReporter actualReporter = reviewController.action(1,4,"");
+        ErrorReporter actualReporter = reviewController.action(1,3,"");
         String expected = gson.toJson(unknowntype);
         String actual = gson.toJson(actualReporter);
         assertEquals(expected,actual);
